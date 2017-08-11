@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { auth, database } from "./components/core/firebase";
 import { Button } from "react-bootstrap";
 
@@ -49,22 +49,15 @@ class App extends Component {
     return (
       <div className="app-container">
         {/* turn section and form into own components */}
-        <Router>
-          <div className="container">
-            <Header />
+        <Header />
 
-            {!currentUser ? <SignIn /> : <Button onClick={() => auth.signOut()}>Sign Out</Button>}
-
-            <Route exact path="/" auth={auth} component={HomePage} />
-            <Route path="/plants" component={Plants} />
-
-            {currentUser &&
-              <div>
-                <Route path="/currentUser" render={userPage} notes={notes} notesRef={this.notesRef} />
-                <Route path="/journal" component={Journal} />
-              </div>}
-          </div>
-        </Router>
+        {!currentUser ? <SignIn /> : <Button onClick={() => auth.signOut()}>Sign Out</Button>}
+        <Route path="/plants" component={Plants} />
+        {currentUser &&
+          <div>
+            <Route path="/currentUser" render={userPage} notes={notes} notesRef={this.notesRef} />
+            <Route path="/journal" component={Journal} />
+          </div>}
       </div>
     );
   }
